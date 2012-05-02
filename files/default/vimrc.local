@@ -1,0 +1,246 @@
+set nocompatible
+" set runtimepath to include pathogen so we can add pathogen as submodule
+set runtimepath=/etc/vim,/etc/vim/bundle/vim-pathogen,$HOME/.vim,$HOME/.vim/bundle/vim-pathogen,$VIMRUNTIME
+filetype off
+"call pathogen#runtime_append_all_bundles()
+" Doing it like this makes snipmate work for me
+call pathogen#runtime_prepend_subdirectories('/etc/vim/bundle/')
+call pathogen#helptags()
+filetype on
+filetype plugin on
+filetype indent on
+
+set modelines=0
+set nojoinspaces
+
+" To make 256 color terminal work
+set t_Co=256
+
+set diffexpr=MyDiff()
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let eq = ''
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      let cmd = '""' . $VIMRUNTIME . '\diff"'
+      let eq = '"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+set nobackup
+set noswapfile
+set nowb
+
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+let mapleader = ","
+
+cnoremap <C-A>      <Home>
+cnoremap <C-E>      <End>
+cnoremap <C-K>      <C-U>
+
+" Search stuff
+" Move while searching
+set incsearch
+set showmatch
+set hlsearch
+
+
+" Omni completion
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+
+
+" Save when losing focus
+au FocusLost * :wa
+
+set completeopt=longest
+"set completeopt=longest,menuone
+
+" Toggling doesn't work yet
+function LineEndsWithSemicolon()
+  let last = col('$')-1
+  if getline('.')[last] !~ ';'
+    return "\<esc>$a;\<esc>"
+  endif
+endfunction
+
+"nnoremap ; :call LineEndsWithSemicolon()<CR>
+noremap <buffer> ; :s/\([^;]\)$/\1;/<cr>
+
+" reload vimrc automatically when changes are saved
+au! BufWritePost _vimrc source %
+au! BufWritePost .vimrc source %
+
+
+" Don't update the display while executing macros
+set lazyredraw
+
+" At least let yourself know what mode you're in
+set showmode
+
+" Let's make it easy to edit this file (mnemonic for the key sequence is 'e'dit 'v'imrc)
+nmap <silent> ,ev :e $MYVIMRC<cr>
+"
+" cd to the directory containing the file in the buffer
+nmap  ,cd :lcd %:h<cr>
+
+" Thank you, :help abbreviation
+func Eatchar(pat)
+  let c = nr2char(getchar(0))
+  return (c =~ a:pat) ? '' : c
+endfunc
+
+" Tags
+set tags=tags,./tags
+
+" Remove trailing whitespaces before saving
+" Remove trailing whitespaces before saving
+fun! StripTrailingWhitespace()
+    " Only strip if the b:noStripeWhitespace variable isn't set
+    if exists('b:noStripWhitespace')
+        return
+    endif
+
+    :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+endfun
+
+autocmd BufWritePre * call StripTrailingWhitespace()
+autocmd FileType mkd let b:noStripWhitespace=1
+"autocmd BufWritePre * :call setline(1,map(getline(1,"$"),'substitute(v:val,"\\s\\+$","","")'))
+
+" Convert to camelCase
+nnoremap + /\$\w\+_<CR>
+nnoremap _ f_x~
+
+" filenames to ignore while autocompleting
+set wildignore=*.o,*.obj,*.bak,*.exe,*.bmp,*.jpg,*.gif,*.png,*.jpeg
+
+" Toggle the trees
+nnoremap <F4> :NERDTreeToggle<cr>
+inoremap <F4> <esc>:NERDTreeToggle<cr>
+nnoremap <F8> :Tlist<cr>
+
+" Toggle pasting
+set pastetoggle=<F2>
+
+" Fuzzy Finder
+map <leader>f :FufLine<CR>
+map <leader>ro :FufRenewCache<CR>
+map <leader>o :FufFile**/<CR>
+let g:fuf_abbrevMap = {'/':['*/']}
+let g:fuf_keyOpenSplit = '<CR>'
+let g:fuf_keyOpenTabpage = '<space>'
+let g:fuf_keyOpen = '<C-j>'
+
+" Ack
+nnoremap <leader>a :Ack
+
+"I have a ,v mapping to reselect the text that was just pasted so I can
+"perform commands (like indentation) on it:
+nnoremap <leader>v V`]
+
+" Split the line
+nmap <Leader>n <Leader>i<CR>
+
+" Delete until next underscore
+map _ ct_
+
+" Navigating split windows sucks
+map <c-j> <c-w>j<c-w><Esc>
+map <c-k> <c-w>k<c-w><Esc>
+map <c-l> <c-w>l<c-w><Esc>
+map <c-h> <c-w>h<c-w><Esc>
+
+" Open file in current window's dir
+map <leader>e :e <C-R>=expand("%:p:h") . "\\" <CR>
+
+" Tabs
+map <Leader>tn :tabnew<CR>
+map <Leader>tc :tabclose<CR>
+nmap { :tabprev<CR>
+nmap } :tabnext<CR>
+
+" Use space to toggle comment
+map <silent> <space> :call NERDComment(0, 'toggle')<CR>
+
+" Automatically toggle Paste
+inoremap <S-Insert> <ESC>"+p`]a"
+
+" Theme
+set background=dark
+colorscheme ir_black
+syntax on " syntax highlighting
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
+
+nnoremap <F9> :DiffOrig<cr>
+
+" These commands open folds
+set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
+
+set scrolloff=4
+
+" Reload Snippets without restarting vim
+function! ReloadSnippets( snippets_dir, ft )
+    if strlen( a:ft ) == 0
+        let filetype = "_"
+    else
+        let filetype = a:ft
+    endif
+
+    call ResetSnippets(filetype)
+    call GetSnippets( a:snippets_dir, filetype )
+endfunction
+
+nmap <Leader>rs :call ReloadSnippets(snippets_dir, &filetype)<CR>
+
+" I want ACP to be case sensitive
+let g:acp_ignorecaseOption = 0
+
+" No PHP autofolding please
+let g:DisableAutoPHPFolding = 1
+
+" Will allow you to use :w!! to write to a file using sudo if you forgot to
+" sudo vim file (it will prompt for sudo password when writing)
+cmap w!! %!sudo tee > /dev/null %
+
+" Use sane regexes.
+nnoremap / /\v
+vnoremap / /\v
+
+" ignore linebreaks when moving left / right
+noremap j gj
+noremap k gk
+
+
+" Who uses keywordprg? I always hit this when I join lines
+nnoremap K <nop>
