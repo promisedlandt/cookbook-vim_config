@@ -1,6 +1,7 @@
-maintainer       "YOUR_COMPANY_NAME"
-maintainer_email "YOUR_EMAIL"
-license          "All rights reserved"
-description      "Installs/Configures vim_config"
+maintainer       "Nils Landt"
+maintainer_email "cookbooks@promisedlandt.de"
+license          "WTFPL"
+description      "Configures vim"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.0.1"
+version          "0.0.2"
+depends           "vim"

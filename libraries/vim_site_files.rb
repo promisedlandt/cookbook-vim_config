@@ -1,6 +1,6 @@
 module VimSiteFiles
-  def install_file_to_directory name, version, base_directory, force = false
-    plugin_directory = "#{ base_directory }#{ name }"
+  def install_file_to_directory name, version, base_directory, owner = "root", group = "root", force = false
+    plugin_directory = "#{ base_directory }/#{ name }"
 
     if File.exists?(plugin_directory)
       if force
@@ -51,5 +51,7 @@ module VimSiteFiles
       FileUtils.cd("..")
     end
     FileUtils.cd("..")
+
+    FileUtils.chown_R owner, group, plugin_directory
   end
 end
