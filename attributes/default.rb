@@ -8,3 +8,4 @@ default[:vim_config][:bundles][:git] = []
 default[:vim_config][:bundles][:vim] = {}
 default[:vim_config][:config_file_mode] = :template
 default[:vim_config][:config_files] = []
+default[:vim_config][:config_file_name] = "vimrc.local"

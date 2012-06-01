@@ -34,8 +34,16 @@ end
 
 case node[:vim_config][:config_file_mode]
 when :template
-  cookbook_file "#{ bundle_dir }/vimrc.local" do
-    source "vimrc.local"
+  template "#{ node[:vim_config][:installation_dir] }/#{ node[:vim_config][:config_file_name] }" do
+    source "vimrc.local.erb"
+    owner owner
+    group group
+    mode "0644"
+  end
+when :remote_file
+  remote_file "#{ node[:vim_config][:installation_dir] }/#{ node[:vim_config][:config_file_name] }" do
+    source node[:vim_config][:remote_config_url]
+    backup false
     owner owner
     group group
     mode "0644"
@@ -61,7 +69,7 @@ when :concatenate, :delegate
 
   # write the config file itself
   if node[:vim_config][:config_file_mode] == :delegate
-    cookbook_file "#{ bundle_dir }/vimrc.local" do
+    cookbook_file "#{ bundle_dir }/#{ node[:vim_config][:config_file_name] }" do
       source "vimrc.local.delegated"
       owner owner
       group group
@@ -70,7 +78,7 @@ when :concatenate, :delegate
   elsif node[:vim_config][:config_file_mode] == :concatenate
     config_file_content = "\"this is my config file"
 
-    file "#{ bundle_dir }/vimrc.local" do
+    file "#{ bundle_dir }/#{ node[:vim_config][:config_file_name] }" do
       backup false
       owner owner
       group group
