@@ -11,7 +11,7 @@ module VimSiteFiles
       end
     end
 
-    FileUtils.mkdir_p plugin_directory, :mode => 755
+    FileUtils.mkdir_p plugin_directory, :mode => 0755
 
     FileUtils.cd(plugin_directory)
     f = open("http://www.vim.org/scripts/download_script.php?src_id=#{version}")
