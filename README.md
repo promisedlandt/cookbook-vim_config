@@ -86,6 +86,13 @@ For example, if you wanted to use [LargeFile](http://www.vim.org/scripts/script.
 
 This is mostly obsolete because [Vim Scripts](http://vim-scripts.org) exists.
 
+Forcing Updates
+===============
+
+This cookbook does not update vim site plugins and config snippets.  
+You can set `node[:vim_config][:force_update]` to `true`, and all plugins / config snippets will be deleted and re-downloaded on every run.
+
+
 Resources / Providers
 =====================
 
