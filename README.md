@@ -13,24 +13,24 @@ If you want to install compressed plugins, `unzip`, `tar` and `gunzip` need to b
 Installation directory
 ======================
 
-Everything will be installed to "/etc/vim", the better to manage your systemwide vim installation. You can switch to a different directory by setting `node[:vim_config][:installation_dir]`.
+Everything will be installed to "/etc/vim", the better to manage your systemwide vim installation. You can switch to a different directory by setting `node["vim_config"]["installation_dir"]`.
 
-If you don't want everything to belong to root:root, change `node[:vim_config][:owner]` and `node[:vim_config][:owner_group]`.
+If you don't want everything to belong to root:root, change `node["vim_config"]["owner"]` and `node["vim_config"]["owner_group"]`.
 
 Configuration
 =============
 
-The main configuration file is called "vimrc.local" by default, because that's how things work on Debian. If you want to rename it, set `node[:vim_config][:config_file_name]`.
+The main configuration file is called "vimrc.local" by default, because that's how things work on Debian. If you want to rename it, set `node["vim_config"]["config_file_name"]`.
 
 # Via template
 
-Set `node[:vim_config][:config_file_mode]` to `:template` (or don't set it at all, since `:template` is the default).
+Set `node["vim_config"]["config_file_mode"]` to `:template` (or don't set it at all, since `:template` is the default).
 
 Then fork this cookbook and copy your vimrc into `templates/default/vimrc.local.erb`.
 
 # Via remote file
 
-Set `node[:vim_config][:config_file_mode]` to `:remote_file`, then set `node[:vim_config][:remote_config_url]` to the URL of your vimrc.
+Set `node["vim_config"]["config_file_mode"]` to `:remote_file`, then set `node["vim_config"]["remote_config_url"]` to the URL of your vimrc.
 
 # Via snippets
 
@@ -38,50 +38,50 @@ Instead of a monolithic configuration file, you might want to split your config 
 
 Snippets will be downloaded into a "config.d" subdirectory inside your installation directory.
 
-Set `node[:vim_config][:config_files]` to an array of URLs to your snippets.
+Set `node["vim_config"]["config_files"]` to an array of URLs to your snippets.
 
 ## Concatenated
 
-Set `node[:vim_config][:config_file_mode]` to `:concatenate`.  
+Set `node["vim_config"]["config_file_mode"]` to `:concatenate`.  
 All the snippets will be concatenated into the main config file.
 
 ## Delegated
 
-Set `node[:vim_config][:config_file_mode]` to `:delegate`.  
+Set `node["vim_config"]["config_file_mode"]` to `:delegate`.  
 All the snippets will be loaded when you start vim.
 
 Plugins
 =======
 
-Plugins will be installed into a "bundle" directory under your installation directory by default. Feel free to change this by setting `node[:vim_config][:bundle_dir]`.
+Plugins will be installed into a "bundle" directory under your installation directory by default. Feel free to change this by setting `node["vim_config"]["bundle_dir"]`.
 
 # Plugin Manager
 
-Set the plugin manager in `node[:vim_config][:plugin_manager]`. It defaults to `:pathogen`, but you can also use `:unbundle`.
+Set the plugin manager in `node["vim_config"]["plugin_manager"]`. It defaults to `:pathogen`, but you can also use `:unbundle`.
 
 The selected plugin manager will be installed automatically, but you will have to call it in your vimrc manually.
 
 # Git
 
-Fill the `node[:vim_config][:bundles][:git]` array with URLs to git repositories of plugins you want to use, e.g.
+Fill the `node["vim_config"]["bundles"]["git"]` array with URLs to git repositories of plugins you want to use, e.g.
 
-    default_attributes  vim_config: { bundles: { 
-                                               git: [ "git://github.com/scrooloose/nerdcommenter.git",
-                                                      "git://github.com/tpope/vim-endwise.git" ] 
+    default_attributes  "vim_config" { "bundles" { 
+                                               "git" [ "git://github.com/scrooloose/nerdcommenter.git",
+                                                       "git://github.com/tpope/vim-endwise.git" ] 
     }}
 
 # vim.org
 
 You can also use plugins directly from [vim.org](http://vim.org).  
 
-Fill the `node[:vim_config][:bundles][:vim]` hash, with the key being the name of the subdirectory that will be created in your bundles dir, adn the value being the "src_id" URL parameter for the version you want to download.
+Fill the `node["vim_config"]["bundles"]["vim"]` hash, with the key being the name of the subdirectory that will be created in your bundles dir, adn the value being the "src_id" URL parameter for the version you want to download.
 
 For example, if you wanted to use [LargeFile](http://www.vim.org/scripts/script.php?script_id=1506) (go on, click the link!), your key might be "largefile" or "largefile-1506", and your value for the newest version would be "9277", because the download URL is "http://www.vim.org/scripts/download_script.php?src_id=9277".
 
-    default_attributes  vim_config: { bundles: { 
-                                                 vim: { "largefile-1506" => "9277",
-                                                        "genutils-197" => "11399"
-                                                      } 
+    default_attributes  "vim_config" { "bundles" { 
+                                                 "vim" { "largefile-1506" => "9277",
+                                                         "genutils-197" => "11399"
+                                                       } 
     }}
 
 This is mostly obsolete because [Vim Scripts](http://vim-scripts.org) exists.
@@ -90,7 +90,7 @@ Forcing Updates
 ===============
 
 This cookbook does not update vim site plugins and config snippets.  
-You can set `node[:vim_config][:force_update]` to `true`, and all plugins / config snippets will be deleted and re-downloaded on every run.
+You can set `node["vim_config"]["force_update"]` to `true`, and all plugins / config snippets will be deleted and re-downloaded on every run.
 
 
 Resources / Providers
