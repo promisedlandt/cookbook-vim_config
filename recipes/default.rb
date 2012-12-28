@@ -10,8 +10,8 @@
 bundle_dir = node["vim_config"]["bundle_dir"]
 owner = node["vim_config"]["owner"]
 group = node["vim_config"]["owner_group"]
-config_file_path = "#{ node["vim_config"]["installation_dir"] }/#{ node["vim_config"]["config_file_name"] }"
-config_dir = "#{ node["vim_config"]["installation_dir"] }/config.d"
+config_file_path = ::File.join(node["vim_config"]["installation_dir"], node["vim_config"]["config_file_name"])
+config_dir = ::File.join(node["vim_config"]["installation_dir"], "config.d")
 
 if node["vim_config"]["force_update"]
   [config_dir, bundle_dir].each do |dir|
@@ -31,13 +31,13 @@ end
 
 case node["vim_config"]["plugin_manager"].to_s
 when "unbundle"
-  git "#{ bundle_dir }/vim-unbundle" do
+  git ::File.join(bundle_dir, "vim-unbundle") do
     repository "git://github.com/sunaku/vim-unbundle.git"
     reference "master"
   end
 else
   # use pathogen
-  git "#{ bundle_dir }/vim-pathogen" do
+  git ::File.join(bundle_dir, "vim-pathogen") do
     repository "git://github.com/tpope/vim-pathogen.git"
     reference "master"
   end
@@ -69,7 +69,7 @@ when "concatenate", "delegate"
 
   # download all the config files
   node["vim_config"]["config_files"].each_with_index do |config_file, index|
-    remote_file "#{ config_dir }/#{ index }-#{ config_file.split("/").last }" do
+    remote_file ::File.join(config_dir, "#{ index }-#{ config_file.split("/").last }") do
       source config_file
       backup false
       owner owner

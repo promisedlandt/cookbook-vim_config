@@ -1,6 +1,6 @@
 module VimSiteFiles
   def install_file_to_directory name, version, base_directory, owner = "root", group = "root", force = false
-    plugin_directory = "#{ base_directory }/#{ name }"
+    plugin_directory = ::File.join(base_directory, name)
 
     if File.exists?(plugin_directory)
       if force
@@ -33,13 +33,13 @@ module VimSiteFiles
       %x(gunzip #{local_file})
       # launch vim and make it process the vimball the right way:
       unzipped_file = local_file.gsub(/.gz/,"")
-      system("cd ../.. ; vim +\"e bundle/#{ name }/#{unzipped_file}|UseVimball #{ plugin_directory }\" +q")
+      system("cd ../.. ; vim +\"e bundle/#{ name }/#{ unzipped_file }|UseVimball #{ plugin_directory }\" +q")
     elsif local_file.end_with? 'vba.tar.gz'
       log "Vimball Tar Gzip"
       %x(tar zxf #{local_file})
       # launch vim and make it process the vimball the right way:
       unzipped_file = local_file.gsub(/.tar.gz/,"")
-      system("cd ../.. ; vim +\"e bundle/#{ name }/#{unzipped_file}|UseVimball #{ plugin_directory }\" +q")
+      system("cd ../.. ; vim +\"e bundle/#{ name }/#{ unzipped_file }|UseVimball #{ plugin_directory }\" +q")
     elsif local_file.end_with? 'tar.gz'
       log "Tar Gunzip"
       %x(tar zxf #{local_file})
