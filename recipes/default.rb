@@ -108,6 +108,12 @@ node["vim_config"]["bundles"]["git"].each do |bundle|
   end
 end
 
+node["vim_config"]["bundles"]["hg"].each do |bundle|
+  vim_config_mercurial bundle do
+    action :create
+  end
+end
+
 node["vim_config"]["bundles"]["vim"].each do |name, version|
   vim_config_vim name do
     version version

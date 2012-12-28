@@ -66,9 +66,22 @@ The selected plugin manager will be installed automatically, but you will have t
 Fill the `node["vim_config"]["bundles"]["git"]` array with URLs to git repositories of plugins you want to use, e.g.
 
     default_attributes  "vim_config" { "bundles" { 
-                                               "git" [ "git://github.com/scrooloose/nerdcommenter.git",
-                                                       "git://github.com/tpope/vim-endwise.git" ] 
+                                               "git" => [ "git://github.com/scrooloose/nerdcommenter.git",
+                                                          "git://github.com/tpope/vim-endwise.git" ] 
     }}
+
+Please note that git is not automatically installed.
+
+# Mercurial
+
+Fill the `node["vim_config"]["bundles"]["hg"]` array with URLs to mercurial repositories of plugins you want to use, e.g.
+
+    default_attributes  "vim_config" { "bundles" { 
+                                               "hg" => [ "https://bitbucket.org/delroth/vim-ack" ] 
+    }}
+
+Please note that mercurial is not automatically installed.  
+This needs the mercurial LWRP, so make sure to include the [mercurial cookbook](http://community.opscode.com/cookbooks/mercurial).
 
 # vim.org
 
@@ -107,6 +120,18 @@ Resources / Providers
 repository (name attribute): URL to the repository
 
 reference: branch, defaults to "master"
+
+# vim_config_mercurial
+
+## Actions
+
+:create (default): creates the plugin.
+
+## Attributes
+
+repository (name attribute): URL to the repository
+
+reference: branch, defaults to "tip"
 
 # vim_config_vim
 
