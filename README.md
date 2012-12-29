@@ -8,6 +8,9 @@ Requirements
 
 Vim configuration and vim plugins would be silly without vim.
 
+Git will be installed via the default git cookbook. If you do not wish this, set `node["vim_config"]["skip_git_installation"] = true`.  
+In case you have queued up any plugins in mercurial repositories, mercurial will be installed. You can prevent this by setting `node["vim_config"]["skip_mercurial_installation"] = true`.
+
 If you want to install compressed plugins, `unzip`, `tar` and `gunzip` need to be available on the node (depending on the file's ending). This is not a cookbook dependency though.
 
 Installation directory
@@ -21,6 +24,12 @@ Configuration
 =============
 
 The main configuration file is called "vimrc.local" by default, because that's how things work on Debian. If you want to rename it, set `node["vim_config"]["config_file_name"]`.
+
+# Via wrapper cookbook
+
+Set `node["vim_config"]["config_file_mode"] = :cookbook`, `node["vim_config"]["config_file_template"]` to the name of the template file to use and `node["vim_config"]["config_file_cookbook"]` to the name of your wrapper cookbook.
+
+**This is the preferred way of including your vimrc**
 
 # Via template
 
@@ -57,7 +66,7 @@ Plugins will be installed into a "bundle" directory under your installation dire
 
 # Plugin Manager
 
-Set the plugin manager in `node["vim_config"]["plugin_manager"]`. It defaults to `:pathogen`, but you can also use `:unbundle`.
+Set the plugin manager in `node["vim_config"]["plugin_manager"]`. One of `:pathogen`, `:unbundle` or `:vundle`.
 
 The selected plugin manager will be installed automatically, but you will have to call it in your vimrc manually.
 
@@ -70,8 +79,6 @@ Fill the `node["vim_config"]["bundles"]["git"]` array with URLs to git repositor
                                                           "git://github.com/tpope/vim-endwise.git" ] 
     }}
 
-Please note that git is not automatically installed.
-
 # Mercurial
 
 Fill the `node["vim_config"]["bundles"]["hg"]` array with URLs to mercurial repositories of plugins you want to use, e.g.
@@ -80,7 +87,6 @@ Fill the `node["vim_config"]["bundles"]["hg"]` array with URLs to mercurial repo
                                                "hg" => [ "https://bitbucket.org/delroth/vim-ack" ] 
     }}
 
-Please note that mercurial is not automatically installed.  
 This needs the mercurial LWRP, so make sure to include the [mercurial cookbook](http://community.opscode.com/cookbooks/mercurial).
 
 # vim.org

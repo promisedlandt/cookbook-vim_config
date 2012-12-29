@@ -7,6 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "git::default" unless node["vim_config"]["skip_git_installation"]
+include_recipe "mercurial::default" unless node["vim_config"]["skip_mercurial_installation"] || node["vim_config"]["bundles"]["hg"].empty?
+
 node.set["vim_config"]["config_file_path"] = ::File.join(node["vim_config"]["installation_dir"], node["vim_config"]["config_file_name"])
 node.set["vim_config"]["config_dir"] = ::File.join(node["vim_config"]["installation_dir"], "config.d")
 

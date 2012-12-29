@@ -13,7 +13,6 @@ Vagrant::Config.run do |top_config|
 
     config.vm.provision :chef_solo do |chef|
       chef.run_list = [
-        "recipe[git::default]",
         "recipe[vim_config::default]"
       ]
 
@@ -40,7 +39,6 @@ Vagrant::Config.run do |top_config|
 
     config.vm.provision :chef_solo do |chef|
       chef.run_list = [
-        "recipe[mercurial::default]",
         "recipe[vim_config::default]"
       ]
 
