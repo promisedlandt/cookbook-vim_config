@@ -27,7 +27,13 @@ directory node["vim_config"]["bundle_dir"] do
 end
 
 # install a plugin manager
-include_recipe "vim_config::_plugin_manager_#{ node["vim_config"]["plugin_manager"] }"
+unless node["vim_config"]["skip_plugin_manager"]
+  if ["pathogen","unbundle", "vundle"].include?(node["vim_config"]["plugin_manager"])
+    include_recipe "vim_config::_plugin_manager_#{ node["vim_config"]["plugin_manager"] }"
+  else
+    Chef::Log.warn "Plugin manager not set or not recognized: #{ node["vim_config"]["plugin_manager"] }"
+  end
+end
 
 # manage config file(s)
 include_recipe "vim_config::_config"
