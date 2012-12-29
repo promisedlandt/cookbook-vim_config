@@ -31,6 +31,8 @@ Set `node["vim_config"]["config_file_mode"] = :cookbook`, `node["vim_config"]["c
 
 **This is the preferred way of including your vimrc**
 
+An example wrapper cookbook can be found [here](https://github.com/promisedlandt/cookbook-role_vim)
+
 # Via template
 
 Set `node["vim_config"]["config_file_mode"]` to `:template` (or don't set it at all, since `:template` is the default).
