@@ -1,12 +1,3 @@
-#
-# Cookbook Name:: vim_config
-# Recipe:: default
-#
-# Copyright 2011, Nils Landt
-#
-# All rights reserved - Do Not Redistribute
-#
-
 include_recipe "git::default" unless node["vim_config"]["skip_git_installation"]
 include_recipe "mercurial::default" unless node["vim_config"]["skip_mercurial_installation"] || node["vim_config"]["bundles"]["hg"].empty?
 

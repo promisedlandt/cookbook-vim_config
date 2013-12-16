@@ -1,12 +1,3 @@
-#
-# Cookbook Name:: vim_config
-# Recipe:: _config_delegate
-#
-# Copyright 2011, Nils Landt
-#
-# All rights reserved - Do Not Redistribute
-#
-
 config_file_content = Dir[File.join(node["vim_config"]["config_dir"], "**")].collect { |file| File.open(file).read }.join("\n\n")
 config_file_content = "" if config_file_content.empty?
 

@@ -1,12 +1,3 @@
-#
-# Cookbook Name:: vim_config
-# Recipe:: _config
-#
-# Copyright 2011, Nils Landt
-#
-# All rights reserved - Do Not Redistribute
-#
-
 # concatenate and delegate need a config dir, and files downloaded
 if ["concatenate", "delegate"].include?(node["vim_config"]["config_file_mode"].to_s)
   directory node["vim_config"]["config_dir"] do
