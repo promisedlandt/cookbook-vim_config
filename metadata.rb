@@ -1,9 +1,9 @@
 maintainer       "Nils Landt"
 maintainer_email "cookbooks@promisedlandt.de"
-license          "WTFPL"
-description      "Configures vim"
+license          "MIT"
+description      "Configures vim and installs vim plugins"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "1.0.0"
 
-depends "git"
-depends "mercurial"
+%w(git mercurial).each { |dep| depends dep }
+%w(debian ubuntu).each { |os| supports os }
