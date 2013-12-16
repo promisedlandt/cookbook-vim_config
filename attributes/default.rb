@@ -1,5 +1,5 @@
 default[:vim_config][:installation_dir] = "/etc/vim"
-default[:vim_config][:bundle_dir] = "#{ default[:vim_config][:installation_dir] }/bundle"
+default[:vim_config][:bundle_dir] = ::File.join(node[:vim_config][:installation_dir], "bundle")
 
 default[:vim_config][:owner] = "root"
 default[:vim_config][:owner_group] = "root"

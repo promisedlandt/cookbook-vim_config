@@ -3,7 +3,6 @@ Planning ahead for Christmas 2013
 
 Useful:
 
-  * Re-write README, list all attributes in tables
   * Check which plugins should be installed, delete all other folders in bundle (toggleable)
   * Differentiate between create and sync (git)
   * Differentiate between create and sync (mercurial)
