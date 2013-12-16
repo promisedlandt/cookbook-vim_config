@@ -1,55 +1,23 @@
-require 'berkshelf/vagrant'
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
-Vagrant::Config.run do |top_config|
-  top_config.vm.define :git do |config|
-    config.vm.host_name = "vim-config-git-berkshelf"
+Vagrant.configure("2") do |config|
+  config.vm.hostname = "vim-config-berkshelf"
 
-    config.vm.box = "debian-6.0.6"
+  config.omnibus.chef_version = :latest
 
-    config.vm.network :hostonly, "33.33.33.199"
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "opscode-debian-7.2.0"
 
-    config.ssh.max_tries = 40
-    config.ssh.timeout   = 120
+  config.vm.network :private_network, ip: "33.33.33.200"
 
-    config.vm.provision :chef_solo do |chef|
-      chef.run_list = [
-        "recipe[vim_config::default]"
-      ]
+  # Enabling the Berkshelf plugin. To enable this globally, add this configuration
+  # option to your ~/.vagrant.d/Vagrantfile file
+  config.berkshelf.enabled = true
 
-      chef.json = {
-        :vim_config => {
-          :bundles => {
-            "git" => [ "git://github.com/scrooloose/nerdcommenter.git",
-                       "git://github.com/tpope/vim-endwise.git" ]
-          }
-        }
-      }
-    end
+  config.vm.provision :chef_solo do |chef|
+    chef.run_list = [
+      "recipe[vim_config::default]"
+    ]
   end
-
-  top_config.vm.define :hg do |config|
-    config.vm.host_name = "vim-config-hg-berkshelf"
-
-    config.vm.box = "debian-6.0.6"
-
-    config.vm.network :hostonly, "33.33.33.200"
-
-    config.ssh.max_tries = 40
-    config.ssh.timeout   = 120
-
-    config.vm.provision :chef_solo do |chef|
-      chef.run_list = [
-        "recipe[vim_config::default]"
-      ]
-
-      chef.json = {
-        :vim_config => {
-          :bundles => {
-            "hg" => [ "https://bitbucket.org/delroth/vim-ack" ]
-          }
-        }
-      }
-    end
-  end
-
 end
