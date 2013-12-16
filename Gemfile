@@ -1,5 +1,9 @@
-source :rubygems
+source "https://rubygems.org"
 
-gem 'berkshelf'
-gem 'thor-foodcritic'
-gem 'vagrant', '~> 1.0.5'
+gem "berkshelf"
+
+group :integration do
+  gem "test-kitchen"
+  gem "kitchen-vagrant"
+end
+
