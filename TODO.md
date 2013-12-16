@@ -12,7 +12,6 @@ Nice to have:
   * Test / adjust for RPM based distributions
   * Automatically add plugin manager boilerplate to config file (toggleable)
   * Get some user feedback
-  * Find a better way for vim site downloads - maybe use ark
   * Add delete action to LWRPs
 
 Probably stupid:
