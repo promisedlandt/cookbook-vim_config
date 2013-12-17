@@ -51,6 +51,8 @@ Attribute | Description | Type | Default
 installation_dir | This is where your stuff will be installed to | String | /etc/vim
 bundle_dir | Path where your plugins will be installed to | String | installation_dir/bundle
 
+force_update | Delete installation_dir and bundle_dir before running anything else | Boolean | false
+
 owner | Owner of all files / directories created by this cookbook | String | root
 owner_group | Group of all files / directories created by this cookbook | String | root
 

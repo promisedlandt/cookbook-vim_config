@@ -4,9 +4,10 @@ default[:vim_config][:bundle_dir] = ::File.join(node[:vim_config][:installation_
 default[:vim_config][:owner] = "root"
 default[:vim_config][:owner_group] = "root"
 
-default[:vim_config][:force_bundle_update] = false
+default[:vim_config][:force_update] = false
 default[:vim_config][:plugin_manager] = "pathogen"
 
+default[:vim_config][:force_bundle_update] = false
 default[:vim_config][:bundles][:git] = []
 default[:vim_config][:bundles][:hg] = []
 default[:vim_config][:bundles][:vim] = {}
