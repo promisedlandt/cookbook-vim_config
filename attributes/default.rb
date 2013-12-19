@@ -1,5 +1,4 @@
-default[:vim_config][:installation_dir] = "/etc/vim"
-default[:vim_config][:bundle_dir] = ::File.join(node[:vim_config][:installation_dir], "bundle")
+default[:vim_config][:bundle_dir] = "/etc/vim/bundle"
 
 default[:vim_config][:owner] = "root"
 default[:vim_config][:owner_group] = "root"
@@ -14,4 +13,12 @@ default[:vim_config][:bundles][:vim] = {}
 
 default[:vim_config][:config_file_mode] = "template"
 default[:vim_config][:config_files] = []
-default[:vim_config][:config_file_name] = "vimrc.local"
+default[:vim_config][:config_dir] = "/etc/vim/config.d"
+default[:vim_config][:config_file_path] = value_for_platform(
+                                            ["debian", "ubuntu"] => {
+                                              "default" => "/etc/vim/vimrc.local"
+                                            },
+                                            "centos" => {
+                                              "default" => "/etc/vimrc"
+                                            }
+                                          )

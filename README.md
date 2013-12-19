@@ -48,18 +48,13 @@ All attributes are under the `:vim_config` namespace.
 
 Attribute | Description | Type | Default
 ----------|-------------|------|--------
-installation_dir | This is where your stuff will be installed to | String | /etc/vim
-bundle_dir | Path where your plugins will be installed to | String | installation_dir/bundle
-
+bundle_dir | Path where your plugins will be installed to | String | /etc/vim/bundle
 force_update | Delete installation_dir and bundle_dir before running anything else | Boolean | false
-
 owner | Owner of all files / directories created by this cookbook | String | root
 owner_group | Group of all files / directories created by this cookbook | String | root
-
 plugin_manager | Plugin manager to use. Currently supported are "pathogen", "unbundle" and "vundle" | String | pathogen
-
-config_file_mode | Where to get config file from. Currently supported are "cookbook", "template" and "remote_file". See appropriate section in this readme | String | template
-config_file_name | Name of the config file as it will end up on the file system | String | vimrc.local
+config_file_mode | Where to get config file from. See [here](https://github.com/promisedlandt/cookbook-vim_config#configuration) | String | template
+config_file_path | Full path to the config file as it will end up on the file system | String | [platform dependent](https://github.com/promisedlandt/cookbook-vim_config/blob/master/attributes/default.rb#L16)
 config_file_cookbook | Used when config_file_mode is "cookbook". Name of the wrapper cookbook to get the config file from | String | nil
 
 Plugin bundle attributes are under the `[:vim_config][:bundles]` namespace.

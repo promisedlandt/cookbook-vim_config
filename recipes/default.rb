@@ -1,10 +1,11 @@
 include_recipe "git::default" unless node[:vim_config][:skip_git_installation]
 include_recipe "mercurial::default" unless node[:vim_config][:skip_mercurial_installation] || node[:vim_config][:bundles][:hg].empty?
 
-node.set[:vim_config][:config_file_path] = ::File.join(node[:vim_config][:installation_dir], node[:vim_config][:config_file_name])
-node.set[:vim_config][:config_dir] = ::File.join(node[:vim_config][:installation_dir], "config.d")
-
 if node[:vim_config][:force_update]
+  file node[:vim_config][:config_file_path] do
+    action :delete
+  end
+
   [node[:vim_config][:config_dir], node[:vim_config][:bundle_dir]].each do |dir|
     directory dir do
       action :delete
@@ -17,12 +18,13 @@ directory node[:vim_config][:bundle_dir] do
   owner node[:vim_config][:owner]
   group node[:vim_config][:owner_group]
   mode "0755"
+  recursive true
   action :create
 end
 
 # install a plugin manager
 unless node[:vim_config][:skip_plugin_manager]
-  if ["pathogen","unbundle", "vundle"].include?(node[:vim_config][:plugin_manager])
+  if ["pathogen","unbundle", "vundle"].include?(node[:vim_config][:plugin_manager].to_s)
     include_recipe "vim_config::_plugin_manager_#{ node[:vim_config][:plugin_manager] }"
   else
     Chef::Log.warn "Plugin manager not set or not recognized: #{ node[:vim_config][:plugin_manager] }"
