@@ -9,8 +9,6 @@ Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "opscode-debian-7.2.0"
 
-  config.vm.network :private_network, ip: "33.33.33.200"
-
   # Enabling the Berkshelf plugin. To enable this globally, add this configuration
   # option to your ~/.vagrant.d/Vagrantfile file
   config.berkshelf.enabled = true
