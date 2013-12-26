@@ -11,7 +11,6 @@ Nice to have:
 
   * Automatically add plugin manager boilerplate to config file (toggleable)
   * Get some user feedback
-  * Add delete action to LWRPs
 
 Probably stupid:
 

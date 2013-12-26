@@ -9,7 +9,7 @@ This cookbook helps you manage your vim plugins and configuration.
 
 # Examples
 
-```
+```ruby
 # Install the nerdcommenter and endwise plugins via git
 node.set[:vim_config][:bundles][:git] = [ "git://github.com/scrooloose/nerdcommenter.git",
                                           "git://github.com/tpope/vim-endwise.git" ] 
@@ -72,7 +72,7 @@ There are three ways to get your configuration file installed.
 
 Set `node[:vim_config][:config_file_mode] = :cookbook`, `node[:vim_config][:config_file_template]` to the name of the template file to use and `node[:vim_config][:config_file_cookbook]` to the name of your wrapper cookbook.
 
-**This is the preferred way of including your vimrc**
+**This is my preferred way of including your vimrc**
 
 An example wrapper cookbook can be found [here](https://github.com/promisedlandt/cookbook-role_vim)
 
@@ -109,39 +109,78 @@ Fill the `node[:vim_config][:bundles][:git]` array with URLs to git repositories
 
 Fill the `node[:vim_config][:bundles][:hg]` array with URLs to mercurial repositories of plugins you want to use, e.g.
 
-    default_attributes  vim_config: { bundles: { 
-      hg: [ "https://bitbucket.org/delroth/vim-ack" ] 
-    }}
+```ruby
+default_attributes  vim_config: { bundles: { 
+  hg: [ "https://bitbucket.org/delroth/vim-ack" ] 
+}}
+```
 
 This needs the mercurial LWRP, so make sure to include the [mercurial cookbook](http://community.opscode.com/cookbooks/mercurial).
 
 
-Resources / Providers
-=====================
+# Resources / Providers
 
-# vim_config_git
+If you prefer this cookbook to not manage your stuff, you can just use the LWRPs to manage your plugins.
 
-## Actions
+## vim_config_git
 
-:create (default): creates the plugin.
+Installs a vim plugin from a git source.
 
-## Attributes
+### Actions
 
-repository (name attribute): URL to the repository
+Name | Description | default?
+-----|-------------|---------
+create | Downloads and installs the plugin | default
+delete | Deletes the plugin folder | 
 
-reference: branch, defaults to "master"
+### Attributes
 
-# vim_config_mercurial
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+repository | URL to the repository | String | name
+reference | branch | String  | master
 
-## Actions
+### Examples
 
-:create (default): creates the plugin.
+```ruby
+# Let's install syntastic
+vim_config_git "https://github.com/scrooloose/syntastic"
 
-## Attributes
+# Let's install the "shellslash_fix" branch of syntastic
+vim_config_git "https://github.com/scrooloose/syntastic" do
+  reference "shellslash_fix"
+end
+```
 
-repository (name attribute): URL to the repository
+## vim_config_mercurial
 
-reference: branch, defaults to "tip"
+Installs a vim plugin from a mercurial source
+
+### Actions
+
+Name | Description | default?
+-----|-------------|---------
+create | Downloads and installs the plugin | default
+delete | Deletes the plugin folder | 
+
+### Attributes
+
+Attribute | Description | Type | Default
+----------|-------------|------|--------
+repository | URL to the repository | String | name
+reference | branch | String, Integer  | tip
+
+### Examples
+
+```ruby
+# Let's install gundo
+vim_config_mercurial "http://bitbucket.org/sjl/gundo.vim"
+
+# Let's install the "nonexistentexample" branch of gundo
+vim_config_mercurial "http://bitbucket.org/sjl/gundo.vim" do
+  reference "nonexistentexample"
+end
+```
 
 Acknowledgments
 ===============
