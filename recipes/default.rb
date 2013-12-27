@@ -1,3 +1,12 @@
+# add a plugin manager
+unless node[:vim_config][:skip_plugin_manager]
+  if ["pathogen","unbundle", "vundle"].include?(node[:vim_config][:plugin_manager].to_s)
+    include_recipe "vim_config::_plugin_manager"
+  else
+    Chef::Log.warn "Plugin manager not set or not recognized: #{ node[:vim_config][:plugin_manager] }"
+  end
+end
+
 include_recipe "git::default" unless node[:vim_config][:skip_git_installation]
 include_recipe "mercurial::default" unless node[:vim_config][:skip_mercurial_installation] || node[:vim_config][:bundles][:hg].empty?
 
@@ -22,15 +31,6 @@ directory node[:vim_config][:bundle_dir] do
   action :create
 end
 
-# install a plugin manager
-unless node[:vim_config][:skip_plugin_manager]
-  if ["pathogen","unbundle", "vundle"].include?(node[:vim_config][:plugin_manager].to_s)
-    include_recipe "vim_config::_plugin_manager_#{ node[:vim_config][:plugin_manager] }"
-  else
-    Chef::Log.warn "Plugin manager not set or not recognized: #{ node[:vim_config][:plugin_manager] }"
-  end
-end
-
 # manage config file(s)
 include_recipe "vim_config::_config"
 
@@ -50,5 +50,14 @@ node[:vim_config][:bundles][:vim].each do |name, version|
   vim_config_vim name do
     version version
     action :create
+  end
+end
+
+if node[:vim_config][:manage_plugin_folder]
+  plugin_dirs_to_delete.each do |dir|
+    directory dir do
+      recursive true
+      action :delete
+    end
   end
 end
