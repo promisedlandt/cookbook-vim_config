@@ -1,3 +1,17 @@
+2.0.0 (2013-12-27)
+------------------
+
+New features
+
+  * Ability to let the cookbook manage your plugin folder, deleting all plugins that are not installed via this cookbook
+  * Support for CentOS
+  * Delete action for LWRPs
+  
+Backward compatibility breakages
+
+  * Downloading plugins from the offical site has been deprecated. It will be removed in a future version, barring the shutdown of vim-scripts
+  * Configuration file modes "concatenate" and "delegate" deprecated
+
 1.0.0 (2012-12-29)
 ------------------
 
