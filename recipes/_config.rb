@@ -19,7 +19,7 @@ if ["concatenate", "delegate"].include?(node[:vim_config][:config_file_mode].to_
   end
 end
 
-if ["cookbook", "template", "remote_file", "concatenate", "delegate"].include?(node[:vim_config][:config_file_mode].to_s)
+if ["cookbook", "template", "template_from_attrs", "remote_file", "concatenate", "delegate"].include?(node[:vim_config][:config_file_mode].to_s)
   include_recipe "vim_config::_config_#{ node[:vim_config][:config_file_mode] }"
 else
   Chef::Log.warn "No config file mode set, or config file mode not recognized: #{ node[:vim_config][:config_file_mode] }"
