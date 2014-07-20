@@ -4,5 +4,5 @@ add_vim_git_plugin({ "vundle"   => "https://github.com/gmarik/vundle.git",
 
 case node[:vim_config][:plugin_manager]
   when "pathogen"
-    node.override[:vim_config][:vimrc][:config][:system_wide] = node[:vim_config][:vimrc][:config][:system_wide].dup << "" << "source /etc/vim/bundle/vim-pathogen/autoload/pathogen.vim" << "execute pathogen#infect('/etc/vim/bundle/{}', 'bundle/{}')"
+    node.override[:vim_config][:vimrc][:config][:system_wide] = node[:vim_config][:vimrc][:config][:system_wide].dup << "" << "source #{node[:vim_config][:bundle_dir]}/vim-pathogen/autoload/pathogen.vim" << "execute pathogen#infect('#{node[:vim_config][:bundle_dir]}/{}', 'bundle/{}')"
 end
