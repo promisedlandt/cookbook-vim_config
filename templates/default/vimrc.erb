@@ -2,36 +2,4 @@
 " Do NOT modify this file by hand!
 " vim: ts=2 sw=2 expandtab
 
-<% @config.each do |line| -%>
-  <% case line -%>
-    <% when Mash, Hash -%>
-      <% line.each do |k1, v1| -%>
-<%= k1 %>
-        <% case v1 -%>
-          <% when Array -%>
-            <% v1.each do |v1a| -%>
-              <% case v1a -%>
-                <% when Mash, Hash -%>
-                  <% v1a.each do |k2, v2| -%>
-  <%= k2 %>
-                    <% case v2 -%>
-                      <% when Array -%>
-                        <% v2.each do |v2a| -%>
-    <%= v2a %>
-                        <% end -%>
-                      <% when String -%>
-    <%= v2 %>
-                    <% end -%>
-                  <% end -%>
-                <% when String -%>
-  <%= v1a %>    
-              <% end -%>
-            <% end -%>
-          <% when String -%>
-  <%= v1 %>
-        <% end -%>
-      <% end -%>
-    <% when String -%>
-<%= line %>
-  <% end -%>
-<% end -%>
+<%= @config.to_vim_config.strip %>

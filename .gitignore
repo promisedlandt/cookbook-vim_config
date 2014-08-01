@@ -10,3 +10,4 @@ Gemfile.lock
 /cookbooks
 .kitchen/
 .kitchen.local.yml
+recipes/_development.rb
