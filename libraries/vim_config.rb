@@ -40,3 +40,7 @@ end
 class Hash
   include VimConfig::HashToConfig
 end
+
+class Mash
+  include VimConfig::HashToConfig
+end
