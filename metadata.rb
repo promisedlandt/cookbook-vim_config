@@ -1,3 +1,4 @@
+name             "vim_config"
 maintainer       "Nils Landt"
 maintainer_email "cookbooks@promisedlandt.de"
 license          "MIT"
