@@ -1,3 +1,10 @@
+2.1.0 (2015-04-26)
+------------------
+
+ * Finally add "name" in metadata. Ready for use with Chef 12
+ * You can now set your config files in Chef attributes thanks to Alukardd
+ * Vundle git URL updated thanks to nathanph
+
 2.0.0 (2013-12-27)
 ------------------
 
@@ -6,7 +13,7 @@ New features
   * Ability to let the cookbook manage your plugin folder, deleting all plugins that are not installed via this cookbook
   * Support for CentOS
   * Delete action for LWRPs
-  
+
 Backward compatibility breakages
 
   * Downloading plugins from the offical site has been deprecated. It will be removed in a future version, barring the shutdown of vim-scripts
@@ -16,7 +23,7 @@ Backward compatibility breakages
 ------------------
 
 New features
-  
+
   * Vundle added as plugin manager
   * Automatic installation of git / mercurial (as needed)
   * Read vimrc from wrapper cookbook
