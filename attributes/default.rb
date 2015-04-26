@@ -25,4 +25,4 @@ default[:vim_config][:config_file_path] = value_for_platform(
                                           )
 
 default[:vim_config][:vimrc][:config][:system_wide] = []
-default[:vim_config][:vimrc][:config][:user_specific] = []
+default[:vim_config][:vimrc][:config][:user_specific] = {}
