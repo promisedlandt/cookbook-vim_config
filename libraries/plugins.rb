@@ -1,7 +1,7 @@
 class Chef
   class Recipe
     def add_vim_git_plugin(repository_url)
-      node.set[:vim_config][:bundles][:git] =  node[:vim_config][:bundles][:git].dup <<  repository_url unless node[:vim_config][:bundles][:git].include?(repository_url)
+      node.override[:vim_config][:bundles][:git] = node[:vim_config][:bundles][:git].dup << repository_url unless node[:vim_config][:bundles][:git].include?(repository_url)
     end
 
     def plugin_dirs_to_delete

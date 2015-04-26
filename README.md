@@ -67,7 +67,7 @@ hg | Array of URLs of plugins to install via mercurial | Array | []
 
 # Configuration
 
-There are three ways to get your configuration file installed.
+There are four ways to get your configuration file installed.
 
 ## Via wrapper cookbook
 
@@ -86,6 +86,51 @@ Then fork this cookbook and copy your vimrc into `templates/default/vimrc.local.
 ## Via remote file
 
 Set `node[:vim_config][:config_file_mode]` to `:remote_file`, then set `node[:vim_config][:remote_config_url]` to the URL of your vimrc.
+
+## Via Chef attributes
+
+Set `node[:vim_config][:config_file_mode]` to `:attributes`, then set `node[:vim_config][:vimrc][:config][:system_wide]` to the configuration you want system wide (i.e. in `/etc/vimrc`), and / or set `node[:vim_config][:vimrc][:config][:user_specific]` to a hash, with the key being the username you want to set the config for and the value being the config.
+
+The config needs to be an array, with each element representing one line in the config file and empty strings for blank lines.  
+If you want to indent e.g. a function, add a hash within the array, with the key being the function name and the body being again an array of strings.  
+Don't forget to close your function after the hash, this is not automated.
+
+Example:
+
+```ruby
+node.set[:vim_config] = {
+  "config_file_mode" => "attributes",
+  "vimrc" => {
+    "config" => {
+      "system_wide" => [
+        "syntax on",
+        "set number"
+      ],
+      "user_specific" => {
+        "testuser" => [
+          'set statusline=%<%f%h%m%r%=format=%{&fileformat}\ file=%{&fileencoding}\ enc=%{&encoding}\ %b\ 0x%B\ %l,%c%V\ %P',
+          "set iskeyword=@,48-57,_,192-255",
+          "",
+          {
+            "function! JavaScriptFold()" => [
+              "setl foldmethod=syntax",
+              "setl foldlevelstart=1",
+              "syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend",
+
+              { "function! FoldText()" => "return substitute(getline(v:foldstart), '{.*', '{...}', '')" },
+              "endfunction",
+              "setl foldtext=FoldText()"
+            ]
+          },
+          "endfunction"
+        ]
+      }
+    }
+  }
+}
+
+include_recipe "vim_config::default"
+```
 
 # Plugins
 
@@ -190,3 +235,5 @@ It all clicked for me when I read Tammer Saleh's ["The Modern Vim Config with Pa
 The article got me started with [pathogen](https://github.com/tpope/vim-pathogen), using [this script](https://gist.github.com/593551) to manage my plugins.
 
 All handling of the plugins from vim.org is copied and only slightly modified from that script, which was created by [Daniel C](https://github.com/theosp).
+
+Creating config files from Chef attributes was contributed by [Alukardd](https://github.com/promisedlandt/cookbook-vim_config/pull/1).
